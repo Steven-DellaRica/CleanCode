@@ -6,6 +6,15 @@ package ex2;
 public class CompteBancaire {
 
     /**
+     * Les différents type de compte gérés par cette classe
+     * CC=Compte courant, ou soit LA=Livret A
+     */
+    public enum TypeCompte {
+        CC,
+        LA
+    };
+
+    /**
      * solde : solde du compte
      */
     private double solde;
@@ -23,16 +32,17 @@ public class CompteBancaire {
     /**
      * Le type vaut soit CC=Compte courant, ou soit LA=Livret A
      */
-    private String type;
+    private TypeCompte type;
 
     /**
-     * @param solde
-     * @param decouvert
-     * @param type
+     * Ce constructeur est utilisé pour créer un compte de type Compte Courant
+     *
+     * @param solde     représente le solde du compte
+     * @param decouvert représente le découvert autorisé
      */
-    public CompteBancaire(String type, double solde, double decouvert) {
+    public CompteBancaire( double solde, double decouvert) {
         super();
-        this.type = type;
+        this.type = TypeCompte.CC;
         this.solde = solde;
         this.decouvert = decouvert;
     }
@@ -41,14 +51,13 @@ public class CompteBancaire {
     /**
      * Ce constructeur est utilisé pour créer un compte de type Livret A
      *
-     * @param type             = LA
      * @param solde            représente le solde du compte
      * @param decouvert        représente le découvert autorisé
      * @param tauxRemuneration représente le taux de rémunération du livret A
      */
-    public CompteBancaire(String type, double solde, double decouvert, double tauxRemuneration) {
+    public CompteBancaire(double solde, double decouvert, double tauxRemuneration) {
         super();
-        this.type = type;
+        this.type = TypeCompte.LA;
         this.solde = solde;
         this.decouvert = decouvert;
         this.tauxRemuneration = tauxRemuneration;
@@ -57,31 +66,34 @@ public class CompteBancaire {
     /**
      * Ajoute un montant au solde
      *
-     * @param montant
+     * @param montant montant que l'on veut ajouter au compte
      */
     public void ajouterMontant(double montant) {
         this.solde += montant;
     }
 
     /**
-     * Ajoute un montant au solde
+     * Débite un montant du solde
      *
-     * @param montant
+     * @param montant montant que l'on veut débiter du compte
      */
     public void debiterMontant(double montant) {
-        if (type.equals("CC")) {
+        if (type == TypeCompte.CC) {
             if (this.solde - montant > decouvert) {
                 this.solde = solde - montant;
             }
-        } else if (type.equals("LA")) {
+        } else if (type == TypeCompte.LA) {
             if (this.solde - montant > 0) {
                 this.solde = solde - montant;
             }
         }
     }
 
+    /**
+     * Applique une rémunération annuelle en fonction du solde du compte et du taux rémunération
+     */
     public void appliquerRemuAnnuelle() {
-        if (type.equals("LA")) {
+        if (type == TypeCompte.LA) {
             this.solde = solde + solde * tauxRemuneration / 100;
         }
     }
@@ -145,7 +157,7 @@ public class CompteBancaire {
      *
      * @return the type
      */
-    public String getType() {
+    public Enum<TypeCompte> getType() {
         return type;
     }
 
@@ -154,7 +166,7 @@ public class CompteBancaire {
      *
      * @param type the type to set
      */
-    public void setType(String type) {
+    public void setType(TypeCompte type) {
         this.type = type;
     }
 }

@@ -1,9 +1,22 @@
 package ex5;
 
+/** Représente un objet avec un nom et un poids
+ *
+ */
 public class Item {
 
     private String nom;
     private int poids;
+
+    /** Constructeur pour créer un objet avec un nom et un poids
+     *
+     * @param nom       nom de l'objet
+     * @param poids     poids de l'objet
+     */
+    public Item(String nom, int poids) {
+        this.nom = nom;
+        this.poids = poids;
+    }
 
     /**
      * Getter pour l'attribut nom

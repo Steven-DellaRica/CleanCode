@@ -7,30 +7,38 @@ public class Inventaire {
 
     private List<Caisse> caisses;
 
+    /** Constructeur pour créer un inventaire.
+     *
+     */
     public Inventaire() {
         caisses = new ArrayList<>();
-        caisses.add(new Caisse("Petits objets"));
-        caisses.add(new Caisse("Moyens objets"));
-        caisses.add(new Caisse("Grands objets"));
+        caisses.add(new Caisse("Petits objets", 5));
+        caisses.add(new Caisse("Moyens objets", 20));
+        caisses.add(new Caisse("Grands objets", 40));
     }
 
+    /** Ajoute un objet dans la caisse appropriée en fonction du poids.
+     *
+     * @param item      objet à ajouter
+     */
     public void addItem(Item item) {
-
-        //TODO Faites évoluer ce code (idée: c'est le caisse qui doit "savoir" si elle peut accepter un objet ou non)
-        if (item.getPoids() < 5) {
-            caisses.get(0).getItems().add(item);
-        }
-        if (item.getPoids() >= 5 && item.getPoids() <= 20) {
-            caisses.get(1).getItems().add(item);
-        }
-        if (item.getPoids() >= 20) {
-            caisses.get(2).getItems().add(item);
+        for (Caisse caisse : caisses) {
+            if (caisse.ajouterObjet(item)) {
+                return;
+            }
         }
     }
 
+    /** Retourne le nombre total d'objets dans les caisses
+     *
+     * @return le nombre total d'objets, INT
+     */
     public int taille() {
+        int totalItems = 0;
 
-        //TODO faites évoluer ce code.
-        return caisses.get(0).getItems().size() + caisses.get(1).getItems().size() + caisses.get(2).getItems().size();
+        for (Caisse caisse : caisses) {
+            totalItems += caisse.getItems().size();
+        }
+        return  totalItems;
     }
 }
